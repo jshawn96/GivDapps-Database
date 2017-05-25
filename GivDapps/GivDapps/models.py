@@ -3,10 +3,13 @@ from sqlalchemy.sql import func
 import datetime
 import cloudinary.utils
 
-#Useful ref. http://flask-sqlalchemy.pocoo.org/2.1/models/
+#Useful ref: http://flask-sqlalchemy.pocoo.org/2.1/models/
 
 #This is a user. 
-#A single user may relate to many donations, many campaigns, many challenges and many companies. 
+#1. Many users may relate to many campaigns.
+#2. One user may relate to many donations.
+#3. Many users may relate to many challenges.
+#4. Many users may relate to one company. 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(64), nullable=False)
@@ -20,7 +23,10 @@ class User(db.Model):
     company = db.relationship('Company', backref='employee', lazy='dynamic')
 
 #This is a campaign 
-#A single campaign may relate to many users, many donations, many companies, and many  
+#1. Many users may relate to many campaigns.
+#2. One campaign may relate to many donations. 
+#3. A campaign does not relate to a challenge. 
+#4. One campaign may relate to one company.
 class Campaign(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -80,7 +86,10 @@ class Campaign(db.Model):
 	    return cloudinary.utils.cloudinary_url(self.image_filename)[0]
 
 #This is a donation.
-#A single donation may relate to one user, one company, one challenge and one campaign.
+#1. One user may relate to many donations.
+#2. One campaign may relate to many donations.
+#3. One donation may relate to many challenge.
+#4. A donation may not relate to a company.
 class Donation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -89,6 +98,10 @@ class Donation(db.Model):
     time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
 #This is a challenge.
+#1. Many users may relate to many challenges.
+#2. A campaign does not relate to a challenge. 
+#3. One donation may relate to many challenge.
+#4. One challenge may relate to one company.
 class Challenge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     challenge_name = db.Column(db.String(64), nullable=False)
@@ -102,6 +115,10 @@ class Challenge(db.Model):
     logo_link =  db.Column(db.String(64), nullable=False)
 
 #This is a company.
+#1. One challenge may relate to one company.
+#2. A donation may not relate to a company.
+#3. One campaign may relate to one company.
+#4. Many users may relate to one company. 
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     company_name = db.Column(db.String(64), nullable=False)
