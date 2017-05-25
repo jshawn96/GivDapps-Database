@@ -20,7 +20,8 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=False)
 
     #Relationships
-
+    campaigns = db.relationship('Campaign', backref='creator', lazy='dynamic')
+    donations = db.relationship('Donate', backref='member', lazy='dynamic', foreign_keys='Donation.member_id')
 
 #This is a campaign 
 #1. Many users may relate to many campaigns.
@@ -53,8 +54,37 @@ class Campaign(db.Model):
     time_end = db.Column(db.DateTime(timezone=False), nullable=False)
 
     #Relationships
+    member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
+    donations = db.relationship('Donation', backref='campaign', lazy='dynamic', foreign_keys='Donation.project_id')
 	
-	
+    #Properties
+    @property
+    def total_donations(self):
+	total_donations = db.session.query(func.sum(Donation.amount)).filter(Donation.project_id==self.id).one()[0]
+	if total_donations is None:
+	 	total_donations = 0
+
+	return total_donations
+
+	@property
+	def num_donations(self):
+		return self.donations.count()
+
+	@property
+	def num_days_left(self):
+		now = datetime.datetime.now()
+		num_days_left = (self.time_end - now).days
+
+		return num_days_left
+
+	@property
+	def percentage_funded(self):
+		return int(self.total_donations  * 100 / self.total_goal)
+
+	@property
+	def image_path(self):
+	    return cloudinary.utils.cloudinary_url(self.image_filename)[0]
+
 #This is a donation.
 #1. One user may relate to many donations.
 #2. One campaign may relate to many donations.
@@ -68,7 +98,8 @@ class Donation(db.Model):
     time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
     #Relationships
-	
+    member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 	
 #This is a challenge.
 #1. Many users may relate to many challenges.
