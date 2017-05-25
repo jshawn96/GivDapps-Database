@@ -21,7 +21,7 @@ class User(db.Model):
 
         #Relationships
         campaign = db.relationship('Campaign', backref='creator', lazy='dynamic')
-        donations = db.relationship('Donate', backref='user', lazy='dynamic', foreign_keys='Donation.user_id')
+        donations = db.relationship('Donation', backref='user', lazy='dynamic', foreign_keys='Donation.user_id')
 
 #This is a campaign
 #1. Many users may relate to many campaigns.
