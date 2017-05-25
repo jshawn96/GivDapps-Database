@@ -21,7 +21,7 @@ class User(db.Model):
 
         #Relationships
         campaign = db.relationship('Campaign', backref='creator', lazy='dynamic')
-        donations = db.relationship('Donate', backref='member', lazy='dynamic', foreign_keys='Donation.member_id')
+        donations = db.relationship('Donate', backref='user', lazy='dynamic', foreign_keys='Donation.user_id')
 
 #This is a campaign
 #1. Many users may relate to many campaigns.
@@ -54,13 +54,13 @@ class Campaign(db.Model):
         time_end = db.Column(db.DateTime(timezone=False), nullable=False)
 
         #Relationships
-        member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
-        donations = db.relationship('Donation', backref='campaign', lazy='dynamic', foreign_keys='Donation.project_id')
+        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+        donations = db.relationship('Donation', backref='campaign', lazy='dynamic', foreign_keys='Donation.campaign_id')
 
         #Properties
         @property
         def total_donations(self):
-            total_donations = db.session.query(func.sum(Donation.amount)).filter(Donation.project_id==self.id).one()[0]
+            total_donations = db.session.query(func.sum(Donation.amount)).filter(Donation.campaign_id==self.id).one()[0]
             if total_donations is None:
                 total_donations = 0
 
@@ -98,8 +98,8 @@ class Donation(db.Model):
         time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
         #Relationships
-        member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
-        project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+        campaign_id = db.Column(db.Integer, db.ForeignKey('campaign.id'), nullable=False)
 
 #This is a challenge.
 #1. Many users may relate to many challenges.
