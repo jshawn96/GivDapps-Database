@@ -1,17 +1,17 @@
-from punchstarter import db, app
+from GivDapps import db, app
 from sqlalchemy.sql import func
 import datetime
 import cloudinary.utils
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-	first_name = db.Column(db.String(64), nullable=False)
-	last_name = db.Column(db.String(64), nullable=False)
+    first_name = db.Column(db.String(64), nullable=False)
+    last_name = db.Column(db.String(64), nullable=False)
     user_email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(64), nullable=False)
 
     campaign = db.relationship('Campaign', backref='creator', lazy='dynamic')
-	donations = db.relationship('Donation', backref='member', lazy='dynamic', foreign_keys='Donation.user_id')
+    donations = db.relationship('Donation', backref='member', lazy='dynamic', foreign_keys='Donation.user_id')
     challenges = db.relationship('Challenge', backref='challenger', lazy='dynamic', foreign_keys='Challenge.user_id')
     company = db.relationship('Company', backref='employee', lazy='dynamic')
 
