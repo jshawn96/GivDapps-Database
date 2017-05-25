@@ -3,7 +3,7 @@ from sqlalchemy.sql import func
 import datetime
 import cloudinary.utils
 
-#Useful ref.
+#Useful ref. http://flask-sqlalchemy.pocoo.org/2.1/models/
 
 #This is a user. 
 #A single user may relate to many donations, many campaigns, many challenges and many companies. 
