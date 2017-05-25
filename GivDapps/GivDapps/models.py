@@ -3,6 +3,10 @@ from sqlalchemy.sql import func
 import datetime
 import cloudinary.utils
 
+#Useful ref.
+
+#This is a user. 
+#A single user may relate to many donations, many campaigns, many challenges and many companies. 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(64), nullable=False)
@@ -15,6 +19,8 @@ class User(db.Model):
     challenges = db.relationship('Challenge', backref='challenger', lazy='dynamic', foreign_keys='Challenge.user_id')
     company = db.relationship('Company', backref='employee', lazy='dynamic')
 
+#This is a campaign 
+#A single campaign may relate to many users, many donations, many companies, and many  
 class Campaign(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -73,13 +79,16 @@ class Campaign(db.Model):
 	def image_path(self):
 	    return cloudinary.utils.cloudinary_url(self.image_filename)[0]
 
+#This is a donation.
+#A single donation may relate to one user, one company, one challenge and one campaign.
 class Donation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     campaign_id = db.Column(db.Integer, db.ForeignKey('campaign.id'), nullable=False)
-	amount = db.Column(db.Integer, nullable=False)
-	time_created = db.Column(db.DateTime(timezone=False), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
+#This is a challenge.
 class Challenge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     challenge_name = db.Column(db.String(64), nullable=False)
@@ -92,9 +101,10 @@ class Challenge(db.Model):
     photo_link = db.Column(db.String(64), nullable=False)
     logo_link =  db.Column(db.String(64), nullable=False)
 
+#This is a company.
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-	company_name = db.Column(db.String(64), nullable=False)
+    company_name = db.Column(db.String(64), nullable=False)
 
     street_address = db.Column(db.String(128), nullable=False)
     city = db.Column(db.String(64), nullable=False)
