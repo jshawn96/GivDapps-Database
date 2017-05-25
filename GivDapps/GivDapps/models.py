@@ -5,11 +5,11 @@ import cloudinary.utils
 
 #Useful ref: http://flask-sqlalchemy.pocoo.org/2.1/models/
 
-#This is a user. 
+#This is a user.
 #1. Many users may relate to many campaigns.
 #2. One user may relate to many donations.
 #3. Many users may relate to many challenges.
-#4. Many users may relate to one company. 
+#4. Many users may relate to one company.
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -23,10 +23,10 @@ class User(db.Model):
     campaigns = db.relationship('Campaign', backref='creator', lazy='dynamic')
     donations = db.relationship('Donate', backref='member', lazy='dynamic', foreign_keys='Donation.member_id')
 
-#This is a campaign 
+#This is a campaign
 #1. Many users may relate to many campaigns.
-#2. One campaign may relate to many donations. 
-#3. A campaign does not relate to a challenge. 
+#2. One campaign may relate to many donations.
+#3. A campaign does not relate to a challenge.
 #4. One campaign may relate to one company.
 class Campaign(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,7 +40,7 @@ class Campaign(db.Model):
     company_sponsorship = db.Column(db.Boolean(), nullable=False, default=False)
     phone_number = db.Column(db.String(64), nullable=True)
     first_name = db.Column(db.String(64), nullable=False)
-    last_name = db.Column(db.String(64), nullable=False)    
+    last_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), unique=True)
     street_address = db.Column(db.String(128), nullable=True)
     city = db.Column(db.String(64), nullable=False)
@@ -56,7 +56,7 @@ class Campaign(db.Model):
     #Relationships
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
     donations = db.relationship('Donation', backref='campaign', lazy='dynamic', foreign_keys='Donation.project_id')
-	
+
     #Properties
     @property
     def total_donations(self):
@@ -92,24 +92,24 @@ class Campaign(db.Model):
 #4. A donation may not relate to a company.
 class Donation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
-    #Attributes    
+
+    #Attributes
     amount = db.Column(db.Integer, nullable=False)
     time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
     #Relationships
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-	
+
 #This is a challenge.
 #1. Many users may relate to many challenges.
-#2. A campaign does not relate to a challenge. 
+#2. A campaign does not relate to a challenge.
 #3. One donation may relate to many challenge.
 #4. One challenge may relate to one company.
 class Challenge(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-   
-    #Attributes 
+
+    #Attributes
     challenge_name = db.Column(db.String(64), nullable=False)
     description = db.Column(db.Text, nullable=False)
     challenge_amount = db.Column(db.Integer, nullable=False)
@@ -120,7 +120,7 @@ class Challenge(db.Model):
     time_end = db.Column(db.DateTime(timezone=False), nullable=False)
     photo_link = db.Column(db.String(64), nullable=False)
     logo_link =  db.Column(db.String(64), nullable=False)
-	
+
     #Relationships
 
 
@@ -128,11 +128,11 @@ class Challenge(db.Model):
 #1. One challenge may relate to one company.
 #2. A donation may not relate to a company.
 #3. One campaign may relate to one company.
-#4. Many users may relate to one company. 
+#4. Many users may relate to one company.
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
-    #Attributes 
+
+    #Attributes
     company_name = db.Column(db.String(64), nullable=False)
     street_address = db.Column(db.String(128), nullable=False)
     city = db.Column(db.String(64), nullable=False)
@@ -143,5 +143,3 @@ class Company(db.Model):
     logo_link =  db.Column(db.String(64), nullable=False)
 
     #Relationships
-	
-	
