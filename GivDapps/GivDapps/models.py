@@ -127,7 +127,7 @@ class Challenge(db.Model):
 #This is a company.
 #1. One challenge may relate to one company.
 #2. A donation may not relate to a company.
-#3. One campaign may relate to one company.
+#3. Many campaigns may relate to many companies.
 #4. Many users may relate to one company.
 class Company(db.Model):
         id = db.Column(db.Integer, primary_key=True)
