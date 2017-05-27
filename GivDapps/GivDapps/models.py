@@ -138,5 +138,8 @@ class Company(db.Model):
         type_of_business = db.Column(db.String(64), nullable=False)
         number_of_employees = db.Column(db.Integer, nullable=False)
         logo_link =  db.Column(db.String(64), nullable=False)
+        social_handle = db.Column(db.String(64), nullable=True)
+        number_of_donors = db.Column(db.Integer, nullable=True)
+        is_non_profit = db.Column(db.Boolean(), nullable=False, default=False)
 
         #Relationships
