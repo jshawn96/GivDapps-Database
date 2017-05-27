@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f159afd2bfa9
+Revision ID: 94ed18f8fbec
 Revises: 
-Create Date: 2017-05-25 17:57:39.897134
+Create Date: 2017-05-26 20:53:41.125694
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f159afd2bfa9'
+revision = '94ed18f8fbec'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,6 +42,9 @@ def upgrade():
     sa.Column('type_of_business', sa.String(length=64), nullable=False),
     sa.Column('number_of_employees', sa.Integer(), nullable=False),
     sa.Column('logo_link', sa.String(length=64), nullable=False),
+    sa.Column('social_handle', sa.String(length=64), nullable=True),
+    sa.Column('number_of_donors', sa.Integer(), nullable=True),
+    sa.Column('is_non_profit', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
@@ -61,9 +64,6 @@ def upgrade():
     sa.Column('tax_deductable', sa.Boolean(), nullable=False),
     sa.Column('company_sponsorship', sa.Boolean(), nullable=False),
     sa.Column('phone_number', sa.String(length=64), nullable=True),
-    sa.Column('first_name', sa.String(length=64), nullable=False),
-    sa.Column('last_name', sa.String(length=64), nullable=False),
-    sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('street_address', sa.String(length=128), nullable=True),
     sa.Column('city', sa.String(length=64), nullable=False),
     sa.Column('state', sa.String(length=64), nullable=False),
@@ -76,8 +76,7 @@ def upgrade():
     sa.Column('time_end', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('donation',
     sa.Column('id', sa.Integer(), nullable=False),
