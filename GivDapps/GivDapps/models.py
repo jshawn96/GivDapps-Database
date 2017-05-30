@@ -106,8 +106,10 @@ class Donation(db.Model):
         time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
         #Relationships
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-        campaign_id = db.Column(db.Integer, db.ForeignKey('campaign.id'), nullable=False)
+        user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+        campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id'), nullable=False)
+        challenge_id = db.Column(db.Integer, db.ForeignKey('Challenge.id'))
+        company_id = db.Column(db.Integer, db.ForeignKey('Company.id'))
 
 #This is a challenge.
 #1. Many users may relate to many challenges.
@@ -132,6 +134,8 @@ class Challenge(db.Model):
         #Relationships
         company = relationship("Company", uselist=False, backref="challenge")
         user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+        donations = db.relationship('Donation', backref='challenge', lazy='dynamic')
+
 
 #This is a company.
 #1. One challenge may relate to one company.
@@ -157,3 +161,4 @@ class Company(db.Model):
         #Relationships
         challenge_id = Column(Integer, ForeignKey('Challenge.id'))
         user_id = Column(Integer, ForeignKey('User.id'))
+        donations = db.relationship('Donation', backref='company', lazy='dynamic')
