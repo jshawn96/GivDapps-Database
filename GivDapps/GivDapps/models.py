@@ -128,7 +128,7 @@ class Challenge(db.Model):
         logo_link =  db.Column(db.String(64), nullable=False)
 
         #Relationships
-
+        company = relationship("Company", uselist=False, backref="challenge")
 
 #This is a company.
 #1. One challenge may relate to one company.
@@ -152,3 +152,4 @@ class Company(db.Model):
         is_non_profit = db.Column(db.Boolean(), nullable=False, default=False)
 
         #Relationships
+        challenge_id = Column(Integer, ForeignKey('Challenge.id'))
