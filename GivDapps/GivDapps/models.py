@@ -28,8 +28,9 @@ class User(db.Model):
         password = db.Column(db.String(64), nullable=False)
 
         #Relationships
-        campaign = db.relationship('Campaign', backref='creator', lazy='dynamic')
+        campaigns = db.relationship('Campaign', backref='creator', lazy='dynamic')
         donations = db.relationship('Donation', backref='user', lazy='dynamic', foreign_keys='Donation.user_id')
+        challenges = db.relationship('Challenge', backref='donator', lazy='dynamic')
 
 #This is a campaign
 #1. Many users may relate to many campaigns.
@@ -129,6 +130,7 @@ class Challenge(db.Model):
 
         #Relationships
         company = relationship("Company", uselist=False, backref="challenge")
+        user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
 
 #This is a company.
 #1. One challenge may relate to one company.
