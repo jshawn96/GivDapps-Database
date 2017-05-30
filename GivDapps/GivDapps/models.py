@@ -31,6 +31,7 @@ class User(db.Model):
         campaigns = db.relationship('Campaign', backref='creator', lazy='dynamic')
         donations = db.relationship('Donation', backref='user', lazy='dynamic', foreign_keys='Donation.user_id')
         challenges = db.relationship('Challenge', backref='donator', lazy='dynamic')
+        company = relationship("Company", uselist=False, backref="user")
 
 #This is a campaign
 #1. Many users may relate to many campaigns.
@@ -155,3 +156,4 @@ class Company(db.Model):
 
         #Relationships
         challenge_id = Column(Integer, ForeignKey('Challenge.id'))
+        user_id = Column(Integer, ForeignKey('User.id'))
