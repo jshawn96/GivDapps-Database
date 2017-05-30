@@ -5,6 +5,14 @@ import cloudinary.utils
 
 #Useful ref: http://flask-sqlalchemy.pocoo.org/2.1/models/
 
+#Helper Tables for Many-to-Many Relationships
+
+#This helper table shows all the supporting companies for a campaign
+supporting_companies = db.Table('supporting_companies',
+    db.Column('company_id', db.Integer, db.ForeignKey('company.id')),
+    db.Column('campaign_id', db.Integer, db.ForeignKey('campaign.id'))
+)
+
 #This is a user.
 #1. Many users may relate to many campaigns.
 #2. One user may relate to many donations.
@@ -53,6 +61,7 @@ class Campaign(db.Model):
         #Relationships
         user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
         donations = db.relationship('Donation', backref='campaign', lazy='dynamic', foreign_keys='Donation.campaign_id')
+        companies = db.relationship('Company', secondary=companies, backref=db.backref('campaign', lazy='dynamic'))
 
         #Properties
         @property
