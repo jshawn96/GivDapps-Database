@@ -6,7 +6,6 @@ import cloudinary.utils
 #Useful ref: http://flask-sqlalchemy.pocoo.org/2.1/models/
 
 #Helper Tables for Many-to-Many Relationships
-
 #This helper table shows all the supporting companies for a campaign
 supporting_companies = db.Table('supporting_companies',
     db.Column('company_id', db.Integer, db.ForeignKey('Company.id')),
@@ -142,9 +141,6 @@ class Challenge(db.Model):
         company = db.relationship("Company", uselist=False, backref="challenge")
 
 #This is a company.
-
-
-
 class Company(db.Model):
         id = db.Column(db.Integer, primary_key=True)
 
