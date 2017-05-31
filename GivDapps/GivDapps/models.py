@@ -142,10 +142,14 @@ class Challenge(db.Model):
         #1. Many users may relate to many challenges.
         challengers = db.relationship('Challenger', secondary=challengers, backref=db.backref('challenges', lazy='dynamic')) #X
         #2. A campaign does not relate to a challenge.
-        #3. One donation may relate to many challenge.
+        #3. One donation may relate to many challenges.
         donation_id = db.Column(db.Integer, db.ForeignKey('Donation.id')) #X
         #4. One challenge may relate to one company.
         company = db.relationship('Company', uselist=False, back_populates="challenge") #X
+                               
+        @property
+        def image_path(self):
+            return cloudinary.utils.cloudinary_url(self.photo_link)[0]
 
 #This is a company.
 class Company(db.Model):
@@ -163,6 +167,13 @@ class Company(db.Model):
         social_handle = db.Column(db.String(64), nullable=True)
         number_of_donors = db.Column(db.Integer, nullable=True)
         is_non_profit = db.Column(db.Boolean(), nullable=False, default=False)
+        type_of_company = db.Column(db.String(64), nullable=False)
+        description = db.Column(db.Text, nullable=False)
+        
+        #Propertes
+        @property
+        def image_path(self):
+            return cloudinary.utils.cloudinary_url(self.logo_link)[0]
 
         #Relationships
         #1. One challenge may relate to one company.
