@@ -9,15 +9,17 @@ import cloudinary.utils
 
 #This helper table shows all the supporting companies for a campaign
 supporting_companies = db.Table('supporting_companies',
-    db.Column('company_id', db.Integer, db.ForeignKey('company.id')),
-    db.Column('campaign_id', db.Integer, db.ForeignKey('campaign.id'))
+    db.Column('company_id', db.Integer, db.ForeignKey('Company.id')),
+    db.Column('campaign_id', db.Integer, db.ForeignKey('Campaign.id'))
+)
+
+#This helper table shows all the supporting users for a campaign
+supporting_users = db.Table('supporting_users', 
+    db.Column('user_id', db.Integer, db.ForeignKey('User.id')),
+    db.Column('campaign_id', db.Integer, db.ForeignKey('Campaign.id'))
 )
 
 #This is a user.
-#1. Many users may relate to many campaigns.
-#2. One user may relate to many donations.
-#3. Many users may relate to many challenges.
-#4. Many users may relate to one company.
 class User(db.Model):
         id = db.Column(db.Integer, primary_key=True)
 
@@ -28,16 +30,16 @@ class User(db.Model):
         password = db.Column(db.String(64), nullable=False)
 
         #Relationships
-        campaigns = db.relationship('Campaign', backref='creator', lazy='dynamic')
+        #1. Many users may relate to many campaigns.
+        campaigns = db.relationship('Campaign', secondary=campaigns, backref=db.backref('creator', lazy='dynamic'))
+        #2. One user may relate to many donations.
         donations = db.relationship('Donation', backref='user', lazy='dynamic', foreign_keys='Donation.user_id')
+        #3. Many users may relate to many challenges.
         challenges = db.relationship('Challenge', backref='donator', lazy='dynamic')
-        company = relationship("Company", uselist=False, backref="user")
+        #4. Many users may relate to one company.
+        company = db.relationship("Company", uselist=False, backref="user")
 
 #This is a campaign
-#1. Many users may relate to many campaigns.
-#2. One campaign may relate to many donations.
-#3. A campaign does not relate to a challenge.
-#4. One campaign may relate to one company.
 class Campaign(db.Model):
         id = db.Column(db.Integer, primary_key=True)
 
@@ -61,8 +63,12 @@ class Campaign(db.Model):
         time_end = db.Column(db.DateTime(timezone=False), nullable=False)
 
         #Relationships
+        #1. Many users may relate to many campaigns.
         user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+        #2. One campaign may relate to many donations.
         donations = db.relationship('Donation', backref='campaign', lazy='dynamic', foreign_keys='Donation.campaign_id')
+        #3. A campaign does not relate to a challenge.
+        #4. Many campaigns may relate to many companies.
         companies = db.relationship('Company', secondary=companies, backref=db.backref('campaign', lazy='dynamic'))
 
         #Properties
@@ -94,10 +100,6 @@ class Campaign(db.Model):
             return cloudinary.utils.cloudinary_url(self.image_filename)[0]
 
 #This is a donation.
-#1. One user may relate to many donations.
-#2. One campaign may relate to many donations.
-#3. One donation may relate to many challenge.
-#4. A donation may not relate to a company.
 class Donation(db.Model):
         id = db.Column(db.Integer, primary_key=True)
 
@@ -106,16 +108,15 @@ class Donation(db.Model):
         time_created = db.Column(db.DateTime(timezone=False), nullable=False)
 
         #Relationships
+        #1. One user may relate to many donations.
         user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+        #2. One campaign may relate to many donations.
         campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id'), nullable=False)
+        #3. One donation may relate to many challenge.
         challenge_id = db.Column(db.Integer, db.ForeignKey('Challenge.id'))
-        company_id = db.Column(db.Integer, db.ForeignKey('Company.id'))
+        #4. A donation may not relate to a company.
 
 #This is a challenge.
-#1. Many users may relate to many challenges.
-#2. A campaign does not relate to a challenge.
-#3. One donation may relate to many challenge.
-#4. One challenge may relate to one company.
 class Challenge(db.Model):
         id = db.Column(db.Integer, primary_key=True)
 
@@ -132,16 +133,18 @@ class Challenge(db.Model):
         logo_link =  db.Column(db.String(64), nullable=False)
 
         #Relationships
-        company = relationship("Company", uselist=False, backref="challenge")
+        #1. Many users may relate to many challenges.
         user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+        #2. A campaign does not relate to a challenge.
+        #3. One donation may relate to many challenge.
         donations = db.relationship('Donation', backref='challenge', lazy='dynamic')
-
+        #4. One challenge may relate to one company.
+        company = db.relationship("Company", uselist=False, backref="challenge")
 
 #This is a company.
-#1. One challenge may relate to one company.
-#2. A donation may not relate to a company.
-#3. Many campaigns may relate to many companies.
-#4. Many users may relate to one company.
+
+
+
 class Company(db.Model):
         id = db.Column(db.Integer, primary_key=True)
 
@@ -159,6 +162,11 @@ class Company(db.Model):
         is_non_profit = db.Column(db.Boolean(), nullable=False, default=False)
 
         #Relationships
-        challenge_id = Column(Integer, ForeignKey('Challenge.id'))
-        user_id = Column(Integer, ForeignKey('User.id'))
-        donations = db.relationship('Donation', backref='company', lazy='dynamic')
+        #1. One challenge may relate to one company.
+        challenge_id = db.Column(db.Integer, db.ForeignKey('Challenge.id'))
+        #2. A donation may not relate to a company.
+        #3. Many campaigns may relate to many companies.
+        campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id'), nullable=False)
+        #4. Many users may relate to one company.
+        user_id = db.Column(Integer, db.ForeignKey('User.id'))
+        
