@@ -125,7 +125,8 @@ class Donation(db.Model):
         campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id')) #X
         #3. One donation may relate to many challenges.
         challenges = db.relationship('Challenge', backref='donation',lazy='dynamic') #X
-        #4. A donation may not relate to a company.
+        #4. One donation may relate to many companies.
+        company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
 
 #This is a challenge.
 class Challenge(db.Model):
