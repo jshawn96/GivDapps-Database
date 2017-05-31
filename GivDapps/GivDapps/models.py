@@ -44,6 +44,8 @@ class User(db.Model):
             # Uni-direction so nothing here
         #4. Many users may relate to one company.
         company_id = db.Column(db.Integer, db.ForeignKey('Company.id') #X
+        #5. Many users may relate to one nonProfit.
+        nonProfit_id = db.Column(db.Integer, db.ForeignKey('nonProfit.id')
 
 #This is a campaign
 class Campaign(db.Model):
@@ -76,7 +78,10 @@ class Campaign(db.Model):
         #3. A campaign does not relate to a challenge.
         #4. Many campaigns may relate to many companies.
         companies = db.relationship('Company', secondary=companies, backref=db.backref('campaign', lazy='dynamic')) #X
-
+        #5. One campaign may relate to one nonProfit.
+        nonProfit = db.relationship('nonProfit', uselist=False, back_populates="campaign") #X
+                               
+                               
         #Properties
         @property
         def total_donations(self):
@@ -166,7 +171,6 @@ class Company(db.Model):
         logo_link =  db.Column(db.String(64), nullable=False)
         social_handle = db.Column(db.String(64), nullable=True)
         number_of_donors = db.Column(db.Integer, nullable=True)
-        is_non_profit = db.Column(db.Boolean(), nullable=False, default=False)
         type_of_company = db.Column(db.String(64), nullable=False)
         description = db.Column(db.Text, nullable=False)
         
@@ -184,3 +188,35 @@ class Company(db.Model):
             #Uni-directional so nothing here
         #4. Many users may relate to one company.
         employees = db.relationship('User', backref='employee', lazy='dynamic') #X        
+
+#This is a non-profit company.
+class nonProfit(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+
+        #Attributes
+        nonProfit_name = db.Column(db.String(64), nullable=False)
+        street_address = db.Column(db.String(128), nullable=False)
+        city = db.Column(db.String(64), nullable=False)
+        state = db.Column(db.String(64), nullable=False)
+        zip_code = db.Column(db.Integer, nullable=False)
+        type_of_business = db.Column(db.String(64), nullable=False)
+        number_of_employees = db.Column(db.Integer, nullable=False)
+        logo_link =  db.Column(db.String(64), nullable=False)
+        social_handle = db.Column(db.String(64), nullable=True)
+        number_of_donors = db.Column(db.Integer, nullable=True)
+        type_of_nonProfit = db.Column(db.String(64), nullable=False)
+        description = db.Column(db.Text, nullable=False)
+        
+        #Propertes
+        @property
+        def image_path(self):
+            return cloudinary.utils.cloudinary_url(self.logo_link)[0]
+
+        #Relationships
+        #1. One campaign may relate to one nonProfit.
+        campaign_id = Column(db.Integer, db.ForeignKey('Campaign.id')) #X
+        campaign = db.relationship('Campaign', back_populates='nonProfit') #X
+        #2. A donation may not relate to a nonProfit.
+        #3. A challenge may not relate to a nonProfit.
+        #4. Many users may relate to one nonProfit.
+        employeesNonProfit = db.relationship('User', backref='employee', lazy='dynamic') #X        
