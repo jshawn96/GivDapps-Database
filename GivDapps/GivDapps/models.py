@@ -5,7 +5,6 @@ import cloudinary.utils
 
 #CodeUpStartTutorial: codeupstart.com/project/build-kickstarter-with-python-and-flask
 #Useful ref: http://flask-sqlalchemy.pocoo.org/2.1/models/ ***
-#It is important to note that this code is using flask AND SQLAlchemy and not just SQLAlchemy.
 
 #Helper Tables for Many-to-Many Relationships
 #This helper table shows all the supporting users for a challenge
