@@ -14,7 +14,7 @@ challengers = db.Table('challengers',
 )
 
 #This helper table shows all the supporting users for a campaign
-users = db.Table('users', 
+users = db.Table('users',
     db.Column('user_id', db.Integer, db.ForeignKey('User.id')),
     db.Column('campaign_id', db.Integer, db.ForeignKey('Campaign.id'))
 )
@@ -43,9 +43,9 @@ class User(db.Model):
         #3. Many users may relate to many challenges.
             # Uni-direction so nothing here
         #4. Many users may relate to one company.
-        company_id = db.Column(db.Integer, db.ForeignKey('Company.id') #X
+        company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
         #5. Many users may relate to one nonProfit.
-        nonProfit_id = db.Column(db.Integer, db.ForeignKey('nonProfit.id')
+        nonProfit_id = db.Column(db.Integer, db.ForeignKey('nonProfit.id'))
 
 #This is a campaign
 class Campaign(db.Model):
@@ -80,8 +80,8 @@ class Campaign(db.Model):
         companies = db.relationship('Company', secondary=companies, backref=db.backref('campaign', lazy='dynamic')) #X
         #5. One campaign may relate to one nonProfit.
         nonProfit = db.relationship('nonProfit', uselist=False, back_populates="campaign") #X
-                               
-                               
+
+
         #Properties
         @property
         def total_donations(self):
@@ -124,7 +124,7 @@ class Donation(db.Model):
         #2. One campaign may relate to many donations.
         campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id')) #X
         #3. One donation may relate to many challenges.
-        challenges = db.relationship('Challenge', backref='donation',lazy='dynamic') #X
+        challenges = db.relationship('Challenge', backref='donation', lazy='dynamic') #X
         #4. One donation may relate to many companies.
         company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
 
@@ -152,7 +152,7 @@ class Challenge(db.Model):
         donation_id = db.Column(db.Integer, db.ForeignKey('Donation.id')) #X
         #4. One challenge may relate to one company.
         company = db.relationship('Company', uselist=False, back_populates="challenge") #X
-                               
+
         @property
         def image_path(self):
             return cloudinary.utils.cloudinary_url(self.photo_link)[0]
@@ -174,7 +174,7 @@ class Company(db.Model):
         number_of_donors = db.Column(db.Integer, nullable=True)
         type_of_company = db.Column(db.String(64), nullable=False)
         description = db.Column(db.Text, nullable=False)
-        
+
         #Propertes
         @property
         def image_path(self):
@@ -182,13 +182,13 @@ class Company(db.Model):
 
         #Relationships
         #1. One challenge may relate to one company.
-        challenge_id = Column(db.Integer, db.ForeignKey('Challenge.id')) #X
+        challenge_id = db.Column(db.Integer, db.ForeignKey('Challenge.id')) #X
         challenge = db.relationship('Challenge', back_populates='company') #X
         #2. A donation may not relate to a company.
         #3. Many campaigns may relate to many companies.
             #Uni-directional so nothing here
         #4. Many users may relate to one company.
-        employees = db.relationship('User', backref='employee', lazy='dynamic') #X        
+        employees = db.relationship('User', backref='employee', lazy='dynamic') #X
 
 #This is a non-profit company.
 class nonProfit(db.Model):
@@ -207,7 +207,7 @@ class nonProfit(db.Model):
         number_of_donors = db.Column(db.Integer, nullable=True)
         type_of_nonProfit = db.Column(db.String(64), nullable=False)
         description = db.Column(db.Text, nullable=False)
-        
+
         #Propertes
         @property
         def image_path(self):
@@ -215,9 +215,9 @@ class nonProfit(db.Model):
 
         #Relationships
         #1. One campaign may relate to one nonProfit.
-        campaign_id = Column(db.Integer, db.ForeignKey('Campaign.id')) #X
+        campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id')) #X
         campaign = db.relationship('Campaign', back_populates='nonProfit') #X
         #2. A donation may not relate to a nonProfit.
         #3. A challenge may not relate to a nonProfit.
         #4. Many users may relate to one nonProfit.
-        employeesNonProfit = db.relationship('User', backref='employee', lazy='dynamic') #X        
+        employeesNonProfit = db.relationship('User', backref='employee', lazy='dynamic') #X

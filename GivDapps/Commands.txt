@@ -1,3 +1,7 @@
 python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
+
+
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'challengers.user_id' could not find table 'User' with which to generate a 
+foreign key to target column 'id'
