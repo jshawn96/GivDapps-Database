@@ -77,9 +77,9 @@ class Campaign(db.Model):
         donations = db.relationship('Donation', backref='campaign', lazy='dynamic') #X
         #3. A campaign does not relate to a challenge.
         #4. Many campaigns may relate to many companies.
-        companies = db.relationship('Company', secondary=companies, backref=db.backref('campaign', lazy='dynamic')) #X
+        companies = db.relationship('Company', secondary=companies, backref=db.backref('campaigns', lazy='dynamic')) #X
         #5. One campaign may relate to one nonProfit.
-        nonProfit = db.relationship('nonProfit', uselist=False, back_populates="campaign") #X
+        nonProfit = db.relationship('nonProfit', backref='campaign', uselist=False, lazy='dynamic') #X
 
 
         #Properties
@@ -151,7 +151,7 @@ class Challenge(db.Model):
         #3. One donation may relate to many challenges.
         donation_id = db.Column(db.Integer, db.ForeignKey('Donation.id')) #X
         #4. One challenge may relate to one company.
-        company = db.relationship('Company', uselist=False, back_populates="challenge") #X
+        company = db.relationship('Company', uselist=False, backref='challenge', lazy='dynamic') #X
 
         @property
         def image_path(self):
@@ -182,7 +182,6 @@ class Company(db.Model):
         #Relationships
         #1. One challenge may relate to one company.
         challenge_id = db.Column(db.Integer, db.ForeignKey('Challenge.id')) #X
-        challenge = db.relationship('Challenge', back_populates='company') #X
         #2. A donation may not relate to a company.
         #3. Many campaigns may relate to many companies.
             #Uni-directional so nothing here
@@ -214,7 +213,6 @@ class nonProfit(db.Model):
         #Relationships
         #1. One campaign may relate to one nonProfit.
         campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id')) #X
-        campaign = db.relationship('Campaign', back_populates='nonProfit') #X
         #2. A donation may not relate to a nonProfit.
         #3. A challenge may not relate to a nonProfit.
         #4. Many users may relate to one nonProfit.
