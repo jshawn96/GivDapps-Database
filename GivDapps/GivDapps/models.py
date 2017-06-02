@@ -27,7 +27,7 @@ companies = db.Table('companies',
 
 #This is a user.
 class User(db.Model):
-         __tablename__ = 'User'
+        __tablename__ = 'User'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
@@ -114,7 +114,7 @@ class Campaign(db.Model):
 
 #This is a donation.
 class Donation(db.Model):
-         __tablename__ = 'Donation'
+        __tablename__ = 'Donation'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
@@ -133,7 +133,7 @@ class Donation(db.Model):
 
 #This is a challenge.
 class Challenge(db.Model):
-         __tablename__ = 'Chellenge'
+        __tablename__ = 'Chellenge'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
@@ -163,7 +163,7 @@ class Challenge(db.Model):
 
 #This is a company.
 class Company(db.Model):
-         __tablename__ = 'Company'
+        __tablename__ = 'Company'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
@@ -195,7 +195,7 @@ class Company(db.Model):
 
 #This is a non-profit company.
 class nonProfit(db.Model):
-         __tablename__ = 'nonProfit'
+        __tablename__ = 'nonProfit'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
