@@ -133,7 +133,7 @@ class Donation(db.Model):
 
 #This is a challenge.
 class Challenge(db.Model):
-        __tablename__ = 'Chellenge'
+        __tablename__ = 'Challenge'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
