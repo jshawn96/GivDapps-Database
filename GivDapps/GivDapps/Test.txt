@@ -1,6 +1,0 @@
->>> from GivDapps.models import *
->>> from GivDapps import db
->>> user1 = User(first_name = "Luke", last_name = "Creator", user_email = "test@gmail.com", password = "password")
->>> db.session.add(user1)
->>> db.session.commit()
->>>
