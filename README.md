@@ -26,8 +26,8 @@ python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 
->>> from GivDapps.models import *
->>> from GivDapps import db
->>> user1 = User(first_name = "Luke", last_name = "Creator", user_email = "test@gmail.com", password = "password")
->>> db.session.add(user1)
->>> db.session.commit()
+from GivDapps.models import *
+from GivDapps import db
+user1 = User(first_name = "Luke", last_name = "Creator", user_email = "test@gmail.com", password = "password")
+db.session.add(user1)
+db.session.commit()
