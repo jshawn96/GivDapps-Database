@@ -130,6 +130,7 @@ class Donation(db.Model):
         challenges = db.relationship('Challenge', backref='donation', lazy='dynamic') #X
         #4. One donation may relate to many companies.
         company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
+        #5. A donation may not relate to a nonProfit.
 
 #This is a challenge.
 class Challenge(db.Model):
@@ -156,6 +157,7 @@ class Challenge(db.Model):
         donation_id = db.Column(db.Integer, db.ForeignKey('Donation.id')) #X
         #4. One challenge may relate to one company.
         company = db.relationship('Company', uselist=False, backref='challenge', lazy='dynamic') #X
+        #5. A challenge may not relate to a nonProfit.
 
         @property
         def image_path(self):
@@ -192,6 +194,7 @@ class Company(db.Model):
             #Uni-directional so nothing here
         #4. Many users may relate to one company.
         employees = db.relationship('User', backref='employee', lazy='dynamic') #X
+        #5. A company may not relate to a nonProfit.
 
 #This is a non-profit company.
 class nonProfit(db.Model):
@@ -223,3 +226,4 @@ class nonProfit(db.Model):
         #3. A challenge may not relate to a nonProfit.
         #4. Many users may relate to one nonProfit.
         employeesNonProfit = db.relationship('User', backref='employee', lazy='dynamic') #X
+        #5. A company may not relate to a nonProfit.
