@@ -1,1 +1,33 @@
 
+(venv) vagrant@vagrant:/vagrant/GivDapps$ python manage.py db init
+/vagrant/venv/lib/python3.5/site-packages/Flask_SQLAlchemy-2.2-py3.5.egg/flask_sqlalchemy/__init__.py:839: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+  Creating directory /vagrant/GivDapps/migrations ... done
+  Creating directory /vagrant/GivDapps/migrations/versions ... done
+  Generating /vagrant/GivDapps/migrations/alembic.ini ... done
+  Generating /vagrant/GivDapps/migrations/env.py ... done
+  Generating /vagrant/GivDapps/migrations/README ... done
+  Generating /vagrant/GivDapps/migrations/script.py.mako ... done
+  Please edit configuration/connection/logging settings in '/vagrant/GivDapps/migrations/alembic.ini' before proceeding.
+(venv) vagrant@vagrant:/vagrant/GivDapps$ python manage.py db migrate
+/vagrant/venv/lib/python3.5/site-packages/Flask_SQLAlchemy-2.2-py3.5.egg/flask_sqlalchemy/__init__.py:839: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.autogenerate.compare] Detected added table 'Campaign'
+INFO  [alembic.autogenerate.compare] Detected added table 'Challenge'
+INFO  [alembic.autogenerate.compare] Detected added table 'Company'
+INFO  [alembic.autogenerate.compare] Detected added table 'Donation'
+INFO  [alembic.autogenerate.compare] Detected added table 'User'
+INFO  [alembic.autogenerate.compare] Detected added table 'challengers'
+INFO  [alembic.autogenerate.compare] Detected added table 'companies'
+INFO  [alembic.autogenerate.compare] Detected added table 'nonProfit'
+INFO  [alembic.autogenerate.compare] Detected added table 'users'
+  Generating /vagrant/GivDapps/migrations/versions/10cfb9953852_.py ... done
+(venv) vagrant@vagrant:/vagrant/GivDapps$ python manage.py db upgrade
+/vagrant/venv/lib/python3.5/site-packages/Flask_SQLAlchemy-2.2-py3.5.egg/flask_sqlalchemy/__init__.py:839: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 10cfb9953852, empty message
+(venv) vagrant@vagrant:/vagrant/GivDapps$
