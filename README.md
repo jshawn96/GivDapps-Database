@@ -7,9 +7,9 @@ Markdown: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
 ## TO DO:
 1.   Test the database.
-2.   Add Photo Model
+2.   ~~Add Photo Model
      One photo can relate to one campaign, company, challenge, user, nonProfit
-     Each photo should have an id, a format, and a date created.
+     Each photo should have an id, a format, and a date created.~~
 3.   The comments should be specifying the actual relationship verbiage.
 4.   Users may want to see their donation history.
 
