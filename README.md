@@ -31,6 +31,7 @@ Third, the goal/what I think needs improvement:
 1. Confirm the logic in the relationships by referencing the link mentioned previously. 
 2. Confirm the attributes and the parameters passed on them, i.e. nullable=True... etc. 
 3. The models have very limited properties in some cases, more might need to be added. depending on what is needed from the front-end. Communication please! 
+
 Fourth, extensive testing on the command line, as shown in the video -- we want the database to be as stable as possible. Fifth, have fun and learn. 
 Finally, after that is all done we can start focusing on the concatenation of the font-end and back-end. Thanks!
 
