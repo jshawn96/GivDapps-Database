@@ -4,6 +4,13 @@ This repo. is based on codeupstart's project build-kickstarter-with-python-and-f
 https://www.codeupstart.com/project/build-kickstarter-with-python-and-flask
 Reference: http://flask-sqlalchemy.pocoo.org/2.1/models/
 
+TO DO:
+**Add Photo Model
+One photo can relate to one campaign, company, challenge, user, nonProfit
+Each photo should have an id, a format, and a date created.
+
+**The comments should be specifying the actual relationship verbiage.
+
 lprescott [10:25 PM] 
 How to get started on the python data base w/ flask and sql alchemy:
 1: Navigate to https://www.codeupstart.com/login
