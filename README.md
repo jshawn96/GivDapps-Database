@@ -23,10 +23,14 @@ Become a collaborator/contributor to this repository (message me or by request).
 
 I got past the sqlalchemy.exc.NoReferencedTableError by formally declaring each table name in the models. This is the commit in case you are curious: https://goo.gl/t9gDO5. 
 
+# 5/2017:
 Adam has asked me to layout the next steps, so here I go: 
 First, only after completing my previous post: How to get started on the python data base w/ flask and sql alchemy, can you start migrating the database on your personal computer. I think this is the best way to make sure any changes you make are correct/able to run. 
 Second, to init, migrate, and upgrade on your computer one must delete the migrations folder and app.db file -- otherwise you'll get errors even when the code is correct. 
-Third, the goal/what I think needs improvement: **I need people to confirm the logic in the relationships** by referencing the link mentioned previously. **I also need people to confirm the logic in the attributes** and the parameters passed on them, i.e. nullable=True... etc. **The models have very limited properties in some cases, more might need to be added.** depending on what is needed from the front-end. Communication please! 
+Third, the goal/what I think needs improvement: 
+1. Confirm the logic in the relationships by referencing the link mentioned previously. 
+2. Confirm the attributes and the parameters passed on them, i.e. nullable=True... etc. 
+3. The models have very limited properties in some cases, more might need to be added. depending on what is needed from the front-end. Communication please! 
 Fourth, extensive testing on the command line, as shown in the video -- we want the database to be as stable as possible. Fifth, have fun and learn. 
 Finally, after that is all done we can start focusing on the concatenation of the font-end and back-end. Thanks!
 
