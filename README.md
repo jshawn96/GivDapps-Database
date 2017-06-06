@@ -5,21 +5,21 @@ https://www.codeupstart.com/project/build-kickstarter-with-python-and-flask
 Reference: http://flask-sqlalchemy.pocoo.org/2.1/models/
 
 # TO DO:
-1   Test the database.
-2   Add Photo Model
-    One photo can relate to one campaign, company, challenge, user, nonProfit
-    Each photo should have an id, a format, and a date created.
+1.   Test the database.
+2.   Add Photo Model
+     One photo can relate to one campaign, company, challenge, user, nonProfit
+     Each photo should have an id, a format, and a date created.
 
-3   The comments should be specifying the actual relationship verbiage.
-4   Users may want to see their donation history.
+3.   The comments should be specifying the actual relationship verbiage.
+4.   Users may want to see their donation history.
 
 lprescott [10:25 PM] 
 How to get started on the python data base w/ flask and sql alchemy:
-1: Navigate to https://www.codeupstart.com/login
+1. Navigate to https://www.codeupstart.com/login
 The username and password that you are going to use is as follows: REDACTED and REDACTED. Once logged in, resume Build Kickstarter with Python and Flask. Watch the introduction and setting up the project. 
-2: Navigate to https://github.com/lprescott/GivDapps-Database
+2. Navigate to https://github.com/lprescott/GivDapps-Database
 Become a collaborator/contributor to this repository (message me or by request).
-3: Start helping out! Thanks.
+3. Start helping out! Thanks.
 
 I got past the sqlalchemy.exc.NoReferencedTableError by formally declaring each table name in the models. This is the commit in case you are curious: https://goo.gl/t9gDO5. 
 
