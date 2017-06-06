@@ -228,8 +228,8 @@ class nonProfit(db.Model):
 
 
 #This is a photo.
-class photo(db.Model):
-        __tablename__ = 'photo'
+class Photo(db.Model):
+        __tablename__ = 'Photo'
         id = db.Column(db.Integer, primary_key=True)
 
         #Attributes
