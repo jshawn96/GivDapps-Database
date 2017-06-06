@@ -36,6 +36,8 @@ class User(db.Model):
         user_email = db.Column(db.String(64), nullable=False)
         password = db.Column(db.String(64), nullable=False)
 
+        #Properties
+
         #Relationships
         #1. Many users may relate to many campaigns.
             # Uni-direction so nothing here
@@ -47,6 +49,8 @@ class User(db.Model):
         company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
         #5. Many users may relate to one nonProfit.
         nonProfit_id = db.Column(db.Integer, db.ForeignKey('nonProfit.id'))
+        #6. One photo can represent one user.
+        photo = db.relationship('Photo', uselist=False, backref='user', lazy='dynamic')
 
 #This is a campaign
 class Campaign(db.Model):
@@ -72,18 +76,6 @@ class Campaign(db.Model):
         time_start = db.Column(db.DateTime(timezone=False), nullable=False)
         time_end = db.Column(db.DateTime(timezone=False), nullable=False)
 
-        #Relationships
-        #1. Many users may relate to many campaigns.
-        users = db.relationship('User', secondary=users, backref=db.backref('campaigns', lazy='dynamic')) #X
-        #2. One campaign may relate to many donations.
-        donations = db.relationship('Donation', backref='campaign', lazy='dynamic') #X
-        #3. A campaign does not relate to a challenge.
-        #4. Many campaigns may relate to many companies.
-        companies = db.relationship('Company', secondary=companies, backref=db.backref('campaigns', lazy='dynamic')) #X
-        #5. One campaign may relate to one nonProfit.
-        nonProfit = db.relationship('nonProfit', backref='campaign', uselist=False, lazy='dynamic') #X
-
-
         #Properties
         @property
         def total_donations(self):
@@ -108,9 +100,18 @@ class Campaign(db.Model):
         def percentage_funded(self):
             return int(self.total_donations  * 100 / self.total_goal)
 
-        @property
-        def image_path(self):
-            return cloudinary.utils.cloudinary_url(self.image_filename)[0]
+        #Relationships
+        #1. Many users may relate to many campaigns.
+        users = db.relationship('User', secondary=users, backref=db.backref('campaigns', lazy='dynamic')) #X
+        #2. One campaign may relate to many donations.
+        donations = db.relationship('Donation', backref='campaign', lazy='dynamic') #X
+        #3. A campaign does not relate to a challenge.
+        #4. Many campaigns may relate to many companies.
+        companies = db.relationship('Company', secondary=companies, backref=db.backref('campaigns', lazy='dynamic')) #X
+        #5. One campaign may relate to one nonProfit.
+        nonProfit = db.relationship('nonProfit', backref='campaign', uselist=False, lazy='dynamic') #X
+        #6. One photo can represent one campaign.
+        photo = db.relationship('Photo', uselist=False, backref='campaign', lazy='dynamic')
 
 #This is a donation.
 class Donation(db.Model):
@@ -120,6 +121,8 @@ class Donation(db.Model):
         #Attributes
         amount = db.Column(db.Integer, nullable=False)
         time_created = db.Column(db.DateTime(timezone=False), nullable=False)
+
+        #Properties
 
         #Relationships
         #1. One user may relate to many donations.
@@ -131,6 +134,7 @@ class Donation(db.Model):
         #4. One donation may relate to many companies.
         company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
         #5. A donation may not relate to a nonProfit.
+        #6. One photo cannot represent one donation.
 
 #This is a challenge.
 class Challenge(db.Model):
@@ -146,8 +150,8 @@ class Challenge(db.Model):
         public_can_help = db.Column(db.Boolean(), nullable=False, default=False)
         time_start = db.Column(db.DateTime(timezone=False), nullable=False)
         time_end = db.Column(db.DateTime(timezone=False), nullable=False)
-        photo_link = db.Column(db.String(64), nullable=False)
-        logo_link =  db.Column(db.String(64), nullable=False)
+
+        #Properties
 
         #Relationships
         #1. Many users may relate to many challenges.
@@ -158,10 +162,8 @@ class Challenge(db.Model):
         #4. One challenge may relate to one company.
         company = db.relationship('Company', uselist=False, backref='challenge', lazy='dynamic') #X
         #5. A challenge may not relate to a nonProfit.
-
-        @property
-        def image_path(self):
-            return cloudinary.utils.cloudinary_url(self.photo_link)[0]
+        #6. One photo can represent one challenge.
+        photo = db.relationship('Photo', uselist=False, backref='challenge', lazy='dynamic')
 
 #This is a company.
 class Company(db.Model):
@@ -175,16 +177,12 @@ class Company(db.Model):
         state = db.Column(db.String(64), nullable=False)
         zip_code = db.Column(db.Integer, nullable=False)
         number_of_employees = db.Column(db.Integer, nullable=False)
-        logo_link =  db.Column(db.String(64), nullable=False)
         social_handle = db.Column(db.String(64), nullable=True)
         number_of_donors = db.Column(db.Integer, nullable=True)
         type_of_company = db.Column(db.String(64), nullable=False)
         description = db.Column(db.Text, nullable=False)
 
-        #Propertes
-        @property
-        def image_path(self):
-            return cloudinary.utils.cloudinary_url(self.logo_link)[0]
+        #Properties
 
         #Relationships
         #1. One challenge may relate to one company.
@@ -195,6 +193,8 @@ class Company(db.Model):
         #4. Many users may relate to one company.
         employees = db.relationship('User', backref='employee', lazy='dynamic') #X
         #5. A company may not relate to a nonProfit.
+        #6. One photo can represent one company.
+        photo = db.relationship('Photo', uselist=False, backref='company', lazy='dynamic')
 
 #This is a non-profit company.
 class nonProfit(db.Model):
@@ -208,16 +208,12 @@ class nonProfit(db.Model):
         state = db.Column(db.String(64), nullable=False)
         zip_code = db.Column(db.Integer, nullable=False)
         number_of_employees = db.Column(db.Integer, nullable=False)
-        logo_link =  db.Column(db.String(64), nullable=False)
         social_handle = db.Column(db.String(64), nullable=True)
         number_of_donors = db.Column(db.Integer, nullable=True)
         type_of_nonProfit = db.Column(db.String(64), nullable=False)
         description = db.Column(db.Text, nullable=False)
 
-        #Propertes
-        @property
-        def image_path(self):
-            return cloudinary.utils.cloudinary_url(self.logo_link)[0]
+        #Properties
 
         #Relationships
         #1. One campaign may relate to one nonProfit.
@@ -227,3 +223,26 @@ class nonProfit(db.Model):
         #4. Many users may relate to one nonProfit.
         employeesNonProfit = db.relationship('User', backref='employee', lazy='dynamic') #X
         #5. A company may not relate to a nonProfit.
+        #6. One photo can represent one nonProfit.
+        photo = db.relationship('Photo', uselist=False, backref='nonProfit', lazy='dynamic')
+
+
+#This is a photo.
+class photo(db.Model):
+        __tablename__ = 'photo'
+        id = db.Column(db.Integer, primary_key=True)
+
+        #Attributes
+        file_path = db.Column(db.String(128), nullable=False)
+        photo_format = db.Column(db.String(64), nullable=False)
+        date_created = db.Column(db.DateTime(timezone=False), nullable=False)
+
+        #Properties
+
+        #Relationships
+        #One photo can represent one campaign, company, challenge, user, or nonProfit.
+        nonProfit_id = db.Column(db.Integer, db.ForeignKey('nonProfit.id')) #X
+        campaign_id = db.Column(db.Integer, db.ForeignKey('Campaign.id')) #X
+        company_id = db.Column(db.Integer, db.ForeignKey('Company.id')) #X
+        challenge_id = db.Column(db.Integer, db.ForeignKey('Challenge.id')) #X
+        user_id = db.Column(db.Integer, db.ForeignKey('User.id')) #X
