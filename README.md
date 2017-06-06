@@ -3,8 +3,9 @@ This repo. is based on codeupstart's project build-kickstarter-with-python-and-f
 
 https://www.codeupstart.com/project/build-kickstarter-with-python-and-flask
 Reference: http://flask-sqlalchemy.pocoo.org/2.1/models/
+Markdown: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
-# TO DO:
+## TO DO:
 1.   Test the database.
 2.   Add Photo Model
      One photo can relate to one campaign, company, challenge, user, nonProfit
@@ -13,6 +14,7 @@ Reference: http://flask-sqlalchemy.pocoo.org/2.1/models/
 3.   The comments should be specifying the actual relationship verbiage.
 4.   Users may want to see their donation history.
 
+### 6/2017:
 lprescott [10:25 PM] 
 How to get started on the python data base w/ flask and sql alchemy:
 1. Navigate to https://www.codeupstart.com/login
@@ -23,7 +25,7 @@ Become a collaborator/contributor to this repository (message me or by request).
 
 I got past the sqlalchemy.exc.NoReferencedTableError by formally declaring each table name in the models. This is the commit in case you are curious: https://goo.gl/t9gDO5. 
 
-# 5/2017:
+### 5/2017:
 Adam has asked me to layout the next steps, so here I go: 
 First, only after completing my previous post: How to get started on the python data base w/ flask and sql alchemy, can you start migrating the database on your personal computer. I think this is the best way to make sure any changes you make are correct/able to run. 
 Second, to init, migrate, and upgrade on your computer one must delete the migrations folder and app.db file -- otherwise you'll get errors even when the code is correct. 
