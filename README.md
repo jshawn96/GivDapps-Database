@@ -18,7 +18,7 @@ lprescott [10:25 PM]
 How to get started on the python data base w/ flask and sql alchemy:
 1. Navigate to https://www.codeupstart.com/login
    The username and password that you are going to use is as follows: REDACTED and REDACTED. Once logged in, resume Build Kickstarter      with Python and Flask. Watch the introduction and setting up the project. 
-2. Follow @yuxuanye's post on our slack for correct virtual environment to user. 
+2. Follow @yuxuanye's post on our slack for correct virtual environment to use. 
 3. Navigate to https://github.com/lprescott/GivDapps-Database
    Become a collaborator/contributor to this repository (message me or by request).
 4. Start helping out and learning! Thanks.
