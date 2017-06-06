@@ -41,7 +41,7 @@ class User(db.Model):
         #Relationships
         #1. Many users may relate to many campaigns.
             # Uni-direction so nothing here
-        #2. One user may relate to many donations.
+        #2. One user may have many donations.
         donations = db.relationship('Donation', backref='user', lazy='dynamic') #X
         #3. Many users may relate to many challenges.
             # Uni-direction so nothing here
